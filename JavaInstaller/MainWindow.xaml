@@ -1,0 +1,60 @@
+﻿<Window x:Class="JavaInstaller.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JavaInstaller"
+        mc:Ignorable="d"
+        Icon="resouce/icons.ico"
+        Title="JavaInstaller" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Button x:Name="addButton"  Click="AddButton_Click" Content="자바설치"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <ListView ItemsSource="{Binding Items}" Width="Auto" HorizontalContentAlignment="Stretch" Height="Auto">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="FontSize" Value="20" />
+                        <Setter Property="Margin" Value="0,5" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="{Binding product}" />
+                            <TextBlock Grid.Column="1" Text="{Binding jdkver}" />
+                            <TextBlock Grid.Column="2" Text="{Binding version}" />
+
+                            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Width="30" Height="30" Click="ApplyButton_Click">
+                                    <Image Source="resouce/apply.png" />
+                                </Button>
+                                <Button Width="30" Height="30" Click="OpenFolderButton_Click">
+                                    <Image Source="resouce/open_folder.png" />
+                                </Button>
+                                <Button Width="30" Height="30" Click="DeleteButton_Click">
+                                    <Image Source="resouce/delete.png" />
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </Grid>
+</Window>

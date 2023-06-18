@@ -1,0 +1,47 @@
+﻿<Window x:Class="JavaInstaller.AddWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JavaInstaller"
+        mc:Ignorable="d"
+        Title="JDK 추가" Height="300" Width="450">
+    <Grid>
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel>
+                    <TextBlock Text="JDK 버전"/>
+                    <ComboBox x:Name="JdkVer" ItemsSource="{Binding MargerVersionList}" SelectionChanged="ChangeJdkVer"></ComboBox>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackPanel>
+                    <TextBlock Text="제공자"/>
+                    <ComboBox x:Name="product" ItemsSource="{Binding ProductList}" SelectionChanged="ChangedProduct"></ComboBox>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="2">
+                <StackPanel>
+                    <TextBlock Text="설치 가능한 버전"/>
+                    <ComboBox x:Name="version" ItemsSource="{Binding DistributionVersions}"></ComboBox>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="3">
+                <ProgressBar x:Name="progressBar" Height="20" Margin="0,10,0,0" Minimum="0" Maximum="100" Visibility="Collapsed"/>
+            </Grid>
+            <Grid Grid.Row="4">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                    <Button Content="설치" Margin="5" Click="JdkInstallBtn"></Button>
+                    <Button Content="닫기" Margin="5" Click="CloseBtn"></Button>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
