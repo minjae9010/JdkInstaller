@@ -89,7 +89,7 @@ namespace JavaInstaller
 
                     // 시스템 변수의 Path 값 가져오기
                     string pathVariable = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
-                    string pattern = @"(?:^|;)([^;]*\\JavaInstaller\\Jdk\\[^;]*\\bin)";
+                    string pattern = $@"(?:^|;)([^;]*\\{environmentVariableName}\\Jdk\\[^;]*\\bin)";
 
                     Regex regex = new Regex(pattern);
                     Match match = regex.Match(pathVariable);
@@ -100,7 +100,6 @@ namespace JavaInstaller
                         String result = match.Value;
                         Environment.SetEnvironmentVariable("Path", pathVariable.Replace(result, ""), EnvironmentVariableTarget.Machine);
                     }
-
 
                     // 시스템 환경 변수에 등록
                     using (var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment", true))
@@ -113,7 +112,7 @@ namespace JavaInstaller
 
 
                     // 새로운 Path 값 생성
-                    string newPathValue = $"{pathVariable};%{environmentVariableName}%\\bin";
+                    string newPathValue = $"{pathVariable};\"%{environmentVariableName}%\\bin\"";
 
                     // 시스템 변수의 Path 값 업데이트
                     Environment.SetEnvironmentVariable("Path", newPathValue, EnvironmentVariableTarget.Machine);
