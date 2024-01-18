@@ -84,7 +84,6 @@ namespace JavaInstaller
                 try
                 {
                     // 환경 변수명과 값 설정
-                    string environmentVariableName = "JdkInstaller";
                     string environmentVariableValue = selectedJdk.path;
 
                     // 시스템 변수의 Path 값 가져오기
@@ -102,19 +101,8 @@ namespace JavaInstaller
                         Environment.SetEnvironmentVariable("Path", pathVariable, EnvironmentVariableTarget.Machine);
 
                     }
-
-                    // 시스템 환경 변수에 등록
-                    using (var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment", true))
-                    {
-                        if (regKey != null)
-                        {
-                            regKey.SetValue(environmentVariableName, environmentVariableValue);
-                        }
-                    }
-
-
                     // 새로운 Path 값 생성
-                    string newPathValue = $"{pathVariable};\"%{environmentVariableName}%\\bin\"";
+                    string newPathValue = $"{pathVariable}{environmentVariableValue}\\bin;";
 
                     // 시스템 변수의 Path 값 업데이트
                     Environment.SetEnvironmentVariable("Path", newPathValue, EnvironmentVariableTarget.Machine);
