@@ -116,6 +116,9 @@ namespace JavaInstaller
                 DiscoAPI discoAPI = new DiscoAPI();
                 if (versionList.TryGetValue(ver, out string url))
                 {
+
+                    Console.WriteLine(url);
+
                     Console.Out.WriteLine(url);
                     string path = await InstallJDK(url); // Replace this with your JDK installation logic
 

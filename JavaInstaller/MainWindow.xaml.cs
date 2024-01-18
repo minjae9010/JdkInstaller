@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -86,6 +87,21 @@ namespace JavaInstaller
                     string environmentVariableName = "JdkInstaller";
                     string environmentVariableValue = selectedJdk.path;
 
+                    // 시스템 변수의 Path 값 가져오기
+                    string pathVariable = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
+                    string pattern = @"(?:^|;)([^;]*\\JavaInstaller\\Jdk\\[^;]*\\bin)";
+
+                    Regex regex = new Regex(pattern);
+                    Match match = regex.Match(pathVariable);
+
+                    // 중복 및 잔여 방지
+                    if (match.Success)
+                    {
+                        String result = match.Value;
+                        Environment.SetEnvironmentVariable("Path", pathVariable.Replace(result, ""), EnvironmentVariableTarget.Machine);
+                    }
+
+
                     // 시스템 환경 변수에 등록
                     using (var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment", true))
                     {
@@ -95,18 +111,13 @@ namespace JavaInstaller
                         }
                     }
 
-                    // 시스템 변수의 Path 값 가져오기
-                    string pathVariable = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine);
 
-                    // 중복 등록 방지
-                    if (!pathVariable.Contains($"%{environmentVariableName}%\\bin"))
-                    {
-                        // 새로운 Path 값 생성
-                        string newPathValue = $"{pathVariable};%{environmentVariableName}%\\bin";
+                    // 새로운 Path 값 생성
+                    string newPathValue = $"{pathVariable};%{environmentVariableName}%\\bin";
 
-                        // 시스템 변수의 Path 값 업데이트
-                        Environment.SetEnvironmentVariable("Path", newPathValue, EnvironmentVariableTarget.Machine);
-                    }
+                    // 시스템 변수의 Path 값 업데이트
+                    Environment.SetEnvironmentVariable("Path", newPathValue, EnvironmentVariableTarget.Machine);
+
 
                     // 완료 메시지 박스 표시
                     MessageBox.Show("환경 변수가 성공적으로 설정되었습니다.", "완료", MessageBoxButton.OK, MessageBoxImage.Information);
